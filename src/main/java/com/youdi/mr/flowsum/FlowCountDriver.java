@@ -30,6 +30,11 @@ public class FlowCountDriver {
         job.setOutputValueClass(FlowBean.class);
 
 
+        // 设置分区
+        job.setPartitionerClass(ProvincePartitioner.class);
+        // 设置task
+        job.setNumReduceTasks(4);
+
         // 6.设置输出路径
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

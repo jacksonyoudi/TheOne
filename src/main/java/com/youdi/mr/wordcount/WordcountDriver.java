@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class WordcountDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
+        args = new String[]{"/Users/youdi/Project/javaProject/TheOne/input", "/Users/youdi/Project/javaProject/TheOne/output"};
         Configuration conf = new Configuration();
 
         // 1. job对象
@@ -35,6 +35,9 @@ public class WordcountDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
+
+        // 设置maptasks
+        job.setNumReduceTasks(2);
 
         //  6.设置输入路径和输出路径
         FileInputFormat.setInputPaths(job, new Path(args[0]));

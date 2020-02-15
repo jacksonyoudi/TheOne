@@ -31,6 +31,9 @@ public class FlowDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBean.class);
 
+        job.setPartitionerClass(ProvincePartitioner.class);
+        job.setNumReduceTasks(5);
+
         // 5. 指定 job的输入原始文件所在目录
         FileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));

@@ -37,7 +37,12 @@ public class WordcountDriver {
 
 
         // 设置maptasks
-        job.setNumReduceTasks(2);
+        //job.setNumReduceTasks(2);
+
+        // 设置job
+        //job.setCombinerClass(WordcountCombiner.class);
+        job.setCombinerClass(WordcountReducer.class);
+
 
         //  6.设置输入路径和输出路径
         FileInputFormat.setInputPaths(job, new Path(args[0]));

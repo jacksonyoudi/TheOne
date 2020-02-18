@@ -4,6 +4,9 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.BZip2Codec;
+import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.compress.bzip2.Bzip2Compressor;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.KeyValueLineRecordReader;
@@ -16,6 +19,14 @@ public class KVDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Configuration conf = new Configuration();
         conf.set(KeyValueLineRecordReader.KEY_VALUE_SEPERATOR, " ");
+
+        // 开启map端输出压缩
+        conf.setBoolean("mapreduce.map.output.compress", true);
+
+        // 设置map端输入压缩方式
+        conf.setClass("mapreduce.map.output.compress.codec", BZip2Codec.class, CompressionCodec.class);
+
+
         // 1.获取job对象
         Job job = Job.getInstance(conf);
         job.setJobName("kv");
@@ -38,6 +49,9 @@ public class KVDriver {
 
         // 设置 key 文本输入类型
         job.setInputFormatClass(KeyValueTextInputFormat.class);
+
+        FileOutputFormat.setCompressOutput(job, true);
+        FileOutputFormat.setOutputCompressorClass(job, BZip2Codec.class);
 
         // 6. 设置输入输出路径
         FileInputFormat.setInputPaths(job, new Path(args[0]));

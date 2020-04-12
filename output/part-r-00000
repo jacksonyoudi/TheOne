@@ -9,3 +9,7 @@ tenxun	index.txt-->6	order.txt-->1	word.txt-->2
 three	order.txt-->1	index.txt-->6	word.txt-->2	
 two	index.txt-->6	order.txt-->1	word.txt-->2	
 watch	index.txt-->6	order.txt-->1	word.txt-->2	
+
+(_) => {
+
+}
